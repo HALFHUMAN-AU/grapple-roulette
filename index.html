@@ -50,42 +50,21 @@
         /* HEADER */
 
         header {
-            padding: 0;
-            /* was creating the big empty banner */
-            background:
-                linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.98)),
-                radial-gradient(circle at top left, rgba(255, 45, 149, 0.2), transparent 60%);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    text-align: center;
+    position: relative;   /* stop sticky weirdness */
+}
 
-        header span {
-            font-family: "Bangers", system-ui, sans-serif;
-            font-size: 2.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-main);
-            text-shadow:
-                -2px -2px 0 #ffffff,
-                2px 2px 0 #ffffff,
-                0 0 10px rgba(255, 45, 149, 0.45);
-            display: inline-block;
-            transform: skewX(-4deg);
-        }
-
-        /* Logo becomes the header content */
-        .app-logo {
-            display: block;
-            width: min(92vw, 560px);
-            /* fills on mobile, capped on desktop */
-            height: auto;
-            margin: 0.6rem auto;
-            /* gives it breathing room */
-        }
+.app-logo {
+    display: block;
+    width: 100vw;         /* full viewport width */
+    max-width: none;      /* remove caps */
+    height: auto;
+    margin: 0;
+}
 
         /* Mobile */
         @media (max-width: 768px) {
