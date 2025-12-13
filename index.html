@@ -136,6 +136,16 @@
             cursor: pointer;
         }
 
+        .toggle-list-btn {
+            background: #1e293b;
+            color: #e5e7f0;
+            border: 1px solid #334155;
+            margin-bottom: 0.5rem;
+            display: none;
+            /* hide on desktop */
+        }
+
+
         footer {
             padding: 0.75rem;
             text-align: center;
@@ -144,58 +154,70 @@
             font-size: 0.85rem;
             opacity: 0.75;
         }
+
         @media (max-width: 768px) {
 
-    main {
-        flex-direction: column;
-        padding: 0.5rem;
-    }
+            main {
+                flex-direction: column;
+                padding: 0.5rem;
+            }
 
-    .left-panel {
-        width: 100%;
-        max-height: none;
-        margin-bottom: 0.5rem;
-        padding: 0.75rem;
-    }
+            .left-panel {
+                width: 100%;
+                max-height: none;
+                margin-bottom: 0.5rem;
+                padding: 0.75rem;
+            }
 
-    .right-panel {
-        width: 100%;
-        padding: 0.75rem;
-    }
+            .right-panel {
+                width: 100%;
+                padding: 0.75rem;
+            }
 
-    .controls {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+            .controls {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
 
-    .btn, #deckSelector {
-        width: 100%;
-        padding: 0.8rem;
-        font-size: 1rem !important;
-    }
+            .btn,
+            #deckSelector {
+                width: 100%;
+                padding: 0.8rem;
+                font-size: 1rem !important;
+            }
 
-    #currentCard {
-        padding: 1rem;
-        font-size: 1rem;
-    }
+            #currentCard {
+                padding: 1rem;
+                font-size: 1rem;
+            }
 
-    .scenario-item {
-        padding: 0.9rem;
-    }
+            .scenario-item {
+                padding: 0.9rem;
+            }
 
-    .scenario-text-main {
-        font-size: 1rem;
-    }
+            .scenario-text-main {
+                font-size: 1rem;
+            }
 
-    .scenario-text-sub {
-        font-size: 0.85rem;
-    }
+            .scenario-text-sub {
+                font-size: 0.85rem;
+            }
 
-    footer {
-        font-size: 0.75rem;
-    }
-}
+            footer {
+                font-size: 0.75rem;
+            }
 
+            /* Show toggle on mobile and make it full width */
+            .toggle-list-btn {
+                display: block;
+                width: 100%;
+            }
+
+            /* When left-panel has 'collapsed', hide the list */
+            .left-panel.collapsed #scenarioList {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -207,6 +229,12 @@
             <div style="margin-bottom: 0.5rem;">
                 <strong id="totalCount">0</strong> Scenarios
             </div>
+
+            <!-- Mobile: toggle scenario list -->
+            <button id="toggleListBtn" class="btn toggle-list-btn" type="button">
+                Hide Scenarios
+            </button>
+
             <ul id="scenarioList" style="list-style: none; padding: 0; margin: 0;"></ul>
         </div>
 
@@ -979,6 +1007,9 @@
         const scenarioList = document.getElementById("scenarioList");
         const totalCount = document.getElementById("totalCount");
         const currentCard = document.getElementById("currentCard");
+        const leftPanel = document.querySelector(".left-panel");
+        const toggleListBtn = document.getElementById("toggleListBtn");
+        let isListCollapsed = false;
 
         /* ---------------------------------------------
            RENDER FUNCTIONS
@@ -1056,8 +1087,21 @@
 
         randomBtn.addEventListener("click", randomScenario);
 
+        function updateListToggleLabel() {
+            if (!toggleListBtn) return;
+            toggleListBtn.textContent = isListCollapsed ? "Show Scenarios" : "Hide Scenarios";
+        }
+
+        if (toggleListBtn && leftPanel) {
+            toggleListBtn.addEventListener("click", () => {
+                isListCollapsed = !isListCollapsed;
+                leftPanel.classList.toggle("collapsed", isListCollapsed);
+                updateListToggleLabel();
+            });
+        }
+
         /* ---------------------------------------------
-           DECK SELECTOR
+        DECK SELECTOR
         ----------------------------------------------*/
         document.getElementById("deckSelector").addEventListener("change", (e) => {
             const value = e.target.value;
@@ -1072,10 +1116,21 @@
         });
 
         /* ---------------------------------------------
-           INIT
+        INIT
         ----------------------------------------------*/
+        // On load, collapse list on mobile, keep open on desktop
+        if (window.innerWidth <= 768 && leftPanel) {
+            isListCollapsed = true;
+            leftPanel.classList.add("collapsed");
+        } else if (leftPanel) {
+            isListCollapsed = false;
+            leftPanel.classList.remove("collapsed");
+        }
+        updateListToggleLabel();
+
         renderList();
         renderCurrent(currentId, false);
+
 
     </script>
 </body>
