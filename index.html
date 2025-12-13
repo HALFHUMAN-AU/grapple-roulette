@@ -50,7 +50,8 @@
         /* HEADER */
 
         header {
-            padding: 1.1rem 1.25rem;
+            padding: 0;
+            /* was creating the big empty banner */
             background:
                 linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.98)),
                 radial-gradient(circle at top left, rgba(255, 45, 149, 0.2), transparent 60%);
@@ -76,18 +77,22 @@
             transform: skewX(-4deg);
         }
 
+        /* Logo becomes the header content */
         .app-logo {
             display: block;
-            margin: 0 auto;
-            max-width: 220px;
-            width: 100%;
+            width: min(92vw, 560px);
+            /* fills on mobile, capped on desktop */
             height: auto;
+            margin: 0.6rem auto;
+            /* gives it breathing room */
         }
 
         /* Mobile */
         @media (max-width: 768px) {
             .app-logo {
-                max-width: 160px;
+                width: 94vw;
+                /* basically full width */
+                margin: 0.5rem auto;
             }
         }
 
