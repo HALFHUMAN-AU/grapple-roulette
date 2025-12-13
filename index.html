@@ -76,6 +76,21 @@
             transform: skewX(-4deg);
         }
 
+        .app-logo {
+            display: block;
+            margin: 0 auto;
+            max-width: 220px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .app-logo {
+                max-width: 160px;
+            }
+        }
+
         /* LAYOUT */
 
         main {
@@ -441,7 +456,9 @@
 </head>
 
 <body>
-    <header>Grapple Games Randomiser</header>
+    <header>
+        <img src="./logo.svg" alt="App logo" class="app-logo" />
+    </header>
 
     <main>
         <div class="left-panel">
