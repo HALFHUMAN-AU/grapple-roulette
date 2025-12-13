@@ -224,6 +224,8 @@
 
         #deckSelector {
             padding: 0.5rem 1rem;
+            padding-right: 2.4rem;
+            /* a touch more space */
             font-size: 0.85rem;
             border-radius: 999px;
             border: 1px solid rgba(148, 163, 184, 0.8);
@@ -234,16 +236,28 @@
             letter-spacing: 0.05em;
             box-shadow: 0 4px 10px rgba(148, 163, 184, 0.3);
             appearance: none;
-            position: relative;
-            padding-right: 2rem;
+            cursor: pointer;
+
+            /* stronger arrow */
             background-image:
-                linear-gradient(45deg, transparent 50%, #4b5563 50%),
-                linear-gradient(135deg, #4b5563 50%, transparent 50%);
+                linear-gradient(45deg, transparent 50%, #111827 50%),
+                linear-gradient(135deg, #111827 50%, transparent 50%);
             background-position:
-                calc(100% - 16px) calc(50% - 3px),
-                calc(100% - 12px) calc(50% - 3px);
-            background-size: 6px 6px, 6px 6px;
+                calc(100% - 18px) calc(50% - 2px),
+                calc(100% - 12px) calc(50% - 2px);
+            background-size: 7px 7px, 7px 7px;
             background-repeat: no-repeat;
+
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        #deckSelector:hover,
+        #deckSelector:focus {
+            border-color: var(--accent-main);
+            box-shadow:
+                0 6px 14px rgba(255, 45, 149, 0.25),
+                0 0 0 2px rgba(255, 45, 149, 0.15);
+            outline: none;
         }
 
         /* MOBILE TOGGLE BUTTON (SHOW/HIDE LIST) */
