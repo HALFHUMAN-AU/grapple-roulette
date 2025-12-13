@@ -3,461 +3,200 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>BJJ Roll Wildcards</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BJJ Scenario Deck</title>
 
     <style>
-        :root {
-            --bg: #0f172a;
-            --bg-alt: #020617;
-            --card: #111827;
-            --accent: #38bdf8;
-            --accent-soft: rgba(56, 189, 248, 0.1);
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-            --danger: #f97373;
-            --radius-lg: 14px;
-            --radius-sm: 8px;
-            --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
-            --transition-fast: 150ms ease-out;
-            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: var(--font-main);
-            background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .app-shell {
-            width: 100%;
-            max-width: 960px;
-            background: linear-gradient(135deg, var(--bg-alt), var(--bg));
-            border-radius: 24px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            padding: 24px 24px 28px;
-        }
-
-        @media (min-width: 768px) {
-            .app-shell {
-                padding: 28px 32px 32px;
-            }
-        }
-
-        .header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 16px;
-            align-items: baseline;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-            padding-bottom: 16px;
-            margin-bottom: 20px;
-        }
-
-        .header-main {
+            font-family: system-ui, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            min-height: 100vh;
         }
 
-        .title-row {
+        header {
+            padding: 1rem;
+            background: #1e293b;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #38bdf8;
+            border-bottom: 1px solid #334155;
+        }
+
+        main {
+            flex: 1;
+            padding: 1rem;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 1rem;
         }
 
-        .badge {
-            font-size: 11px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.55);
-            background: radial-gradient(circle at top, rgba(148, 163, 184, 0.25), transparent 60%);
-            color: var(--text-muted);
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.35rem;
-            letter-spacing: 0.03em;
-        }
-
-        .subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .tagline {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            opacity: 0.9;
-        }
-
-        .btn {
-            border: none;
-            outline: none;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            border-radius: 999px;
-            cursor: pointer;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: radial-gradient(circle at top left, #38bdf8, #0369a1);
-            color: #0b1120;
-            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
-            white-space: nowrap;
-        }
-
-        .btn span.icon {
-            font-size: 1.1rem;
-            translate: 0 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.05);
-            box-shadow: 0 16px 40px rgba(56, 189, 248, 0.55);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.9);
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-            gap: 18px;
-        }
-
-        @media (max-width: 768px) {
-            .layout {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
-
-        .current-card {
-            background: radial-gradient(circle at top left, var(--accent-soft), #020617);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(148, 163, 184, 0.45);
-            padding: 16px 18px 18px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .current-card::before {
-            content: "";
-            position: absolute;
-            inset: -30%;
-            background:
-                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.13), transparent 55%),
-                radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.09), transparent 55%);
-            opacity: 0.9;
-            pointer-events: none;
-        }
-
-        .current-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        .current-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            padding: 4px 9px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.6);
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .current-chip span.dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 999px;
-            background: #22c55e;
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
-        }
-
-        .current-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .current-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .current-meta {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .current-body {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .current-tip {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .pill-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .pill {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            color: var(--text-muted);
-        }
-
-        .list-panel {
-            background: radial-gradient(circle at top, #020617, #020617 40%, #000 100%);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(30, 64, 175, 0.7);
-            padding: 12px 14px 13px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .list-panel::before {
-            content: "";
-            position: absolute;
-            inset: -20%;
-            background:
-                radial-gradient(circle at 10% 0%, rgba(30, 64, 175, 0.4), transparent 60%),
-                radial-gradient(circle at 90% 100%, rgba(15, 23, 42, 0.9), transparent 60%);
-            opacity: 0.9;
-            pointer-events: none;
-        }
-
-        .list-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        .list-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .list-title {
-            font-size: 0.9rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #e5e7eb;
-        }
-
-        .list-count {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        .scenario-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 260px;
+        /* Left panel */
+        .left-panel {
+            width: 35%;
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
             overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(148, 163, 184, 0.9) rgba(15, 23, 42, 1);
-        }
-
-        .scenario-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .scenario-list::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 1);
-        }
-
-        .scenario-list::-webkit-scrollbar-thumb {
-            background-color: rgba(148, 163, 184, 0.9);
-            border-radius: 999px;
+            max-height: calc(100vh - 140px);
         }
 
         .scenario-item {
-            font-size: 0.82rem;
-            padding: 7px 6px;
-            border-radius: var(--radius-sm);
             display: flex;
-            gap: 7px;
-            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-bottom: 1px solid #334155;
             cursor: pointer;
-            transition: background var(--transition-fast), transform var(--transition-fast);
+            transition: background 0.2s;
         }
 
         .scenario-item:hover {
-            background: rgba(15, 23, 42, 0.8);
-            transform: translateY(-1px);
+            background: #334155;
         }
 
         .scenario-item.active {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(56, 189, 248, 0.6);
+            background: #475569;
         }
 
         .scenario-index {
-            font-size: 0.78rem;
-            color: var(--accent);
-            min-width: 16px;
-            text-align: right;
-            padding-top: 1px;
+            font-weight: bold;
+            color: #38bdf8;
+            min-width: 24px;
         }
 
         .scenario-text-main {
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .scenario-text-sub {
-            color: var(--text-muted);
-            font-size: 0.76rem;
-            margin-top: 2px;
+            font-size: 0.85rem;
+            opacity: 0.75;
         }
 
-        .footer {
-            margin-top: 14px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        /* Right panel */
+        .right-panel {
+            flex: 1;
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.2rem;
             display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .footer span.highlight {
-            color: var(--accent);
-            font-weight: 500;
+        .card {
+            padding: 1rem 1.2rem;
+            background: #0f172a;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            animation-duration: 0.35s;
         }
 
         @keyframes pop {
             0% {
-                opacity: 0;
-                transform: translateY(4px) scale(0.98);
+                transform: scale(0.97);
+                opacity: 0.6;
             }
 
             100% {
+                transform: scale(1);
                 opacity: 1;
-                transform: translateY(0) scale(1);
             }
         }
 
         .animate-pop {
-            animation: pop 140ms ease-out;
+            animation-name: pop;
+        }
+
+        .pill {
+            background: #334155;
+            padding: 4px 10px;
+            border-radius: 14px;
+            margin-right: 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            background: #0ea5e9;
+            border: none;
+            padding: 0.55rem 1rem;
+            border-radius: 6px;
+            color: #0f172a;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        footer {
+            padding: 0.75rem;
+            text-align: center;
+            background: #1e293b;
+            border-top: 1px solid #334155;
+            font-size: 0.85rem;
+            opacity: 0.75;
         }
     </style>
 </head>
 
 <body>
-    <div class="app-shell">
-        <header class="header">
-            <div class="header-main">
-                <div class="title-row">
-                    <div class="badge">BJJ training game</div>
-                    <div class="tagline">Hit random, then shut up and play the constraint.</div>
-                </div>
-                <h1>BJJ Roll Wildcards</h1>
-                <p class="subtitle">
-                    20 constraint-based scenarios to sharpen decision making, not just smash rounds.
-                </p>
-            </div>
+    <header>BJJ Scenario Deck</header>
 
+    <main>
+        <div class="left-panel">
+            <div style="margin-bottom: 0.5rem;">
+                <strong id="totalCount">0</strong> Scenarios
+            </div>
+            <ul id="scenarioList" style="list-style: none; padding: 0; margin: 0;"></ul>
+        </div>
+
+        <div class="right-panel">
             <div class="controls">
-                <button id="randomBtn" class="btn" type="button">
-                    <span class="icon">🎲</span>
-                    <span>Randomise Scenario</span>
-                </button>
+
+                <!-- DECK SELECTOR -->
+                <select id="deckSelector" class="btn"
+                    style="padding:6px 12px; font-size:0.85rem; background:#111827; color:#e5e7eb; border:1px solid #334155; box-shadow:none;">
+                    <option value="wildcards">Wildcards</option>
+                    <option value="gi">Gi Positions</option>
+                    <option value="nogi">No-Gi Positions</option>
+                </select>
+
+                <button id="randomBtn" class="btn" type="button">Random</button>
             </div>
-        </header>
 
-        <main class="layout">
-            <section class="current-card">
-                <div class="current-inner" id="currentCard">
-                    <div class="current-chip">
-                        <span class="dot"></span>
-                        <span id="currentIndexLabel">Scenario 1 / 20</span>
-                    </div>
-                    <div class="current-label">Current constraint</div>
-                    <div class="current-title" id="currentTitle">Defence Only</div>
-                    <div class="current-meta" id="currentTags">Mode: Defence · Focus: Survival & Escapes</div>
-                    <div class="current-body" id="currentBody">
-                        You are not allowed to attack. No submissions, no sneaky “accidental” chokes.
-                        Your only job is frames, structure, timing and escape chains.
-                    </div>
-                    <div class="current-tip" id="currentTip">
-                        Coaching cue: treat it like a live stress test of your worst positions. If you are muscling out,
-                        you’re doing it wrong.
-                    </div>
-                    <div class="pill-row" id="currentPills"></div>
-                </div>
-            </section>
+            <div id="currentCard" class="card">
+                <div id="currentIndexLabel" style="font-size:0.9rem; opacity:0.8;">Scenario X / Y</div>
+                <h2 id="currentTitle" style="margin: 0.2rem 0;"></h2>
+                <div id="currentTags" style="opacity: 0.8; margin-bottom:0.5rem;"></div>
+                <div id="currentBody" style="margin-bottom:0.7rem;"></div>
+                <div id="currentTip" style="font-size:0.9rem; opacity:0.8; margin-bottom:0.7rem;"></div>
+                <div id="currentPills"></div>
+            </div>
+        </div>
+    </main>
 
-            <aside class="list-panel">
-                <div class="list-inner">
-                    <div class="list-header">
-                        <div class="list-title">All wildcards</div>
-                        <div class="list-count"><span id="totalCount">20</span> loaded</div>
-                    </div>
-                    <ul class="scenario-list" id="scenarioList"></ul>
-                </div>
-            </aside>
-        </main>
+    <footer>Built for chaos. Refined for training.</footer>
 
-        <footer class="footer">
-            <span>
-                Mode: <span class="highlight">Wildcards v1</span> · Positional starts and chaos deck can slot in next.
-            </span>
-            <span>Idea: roll once per pair or once per round and live with the outcome.</span>
-        </footer>
-    </div>
 
     <script>
-        const scenarios = [
+        /* ---------------------------------------------
+           ALL THREE DECKS
+        ----------------------------------------------*/
+
+        /* Wildcards (your original deck) */
+        const wildcards = [   /* --- YOUR 20 SCENARIOS FROM MESSAGE ABOVE --- */
+
+
+
+            /* ############# WILDCARD ARRAY PASTED EXACTLY AS YOU SUPPLIED ############# */
             {
                 id: 1,
                 title: "Defence Only",
@@ -720,6 +459,464 @@
             }
         ];
 
+        /* ---------------------------------------------
+           GI POSITIONS ARRAY
+        ----------------------------------------------*/
+        const giPositions = [
+            {
+                id: 1,
+                title: "Closed Guard – Collar & Sleeve Control",
+                short: "Bottom has cross-collar + sleeve grip.",
+                description:
+                    "Bottom sets closed guard with strong collar-and-sleeve control. Top must posture and break grips. Bottom hunts off-balances and attacks.",
+                mode: "Gi",
+                focus: "Guard Attacks & Posture Breaking",
+                type: "Position",
+                tags: ["Closed guard", "Collar grip", "Sleeve control"],
+            },
+            {
+                id: 2,
+                title: "De La Riva – Sleeve & Ankle",
+                short: "Classic DLR with sleeve grip.",
+                description:
+                    "Bottom plays DLR with sleeve and ankle control. Top starts mid-stance. Bottom aims to off-balance into sweep or back-take. Top looks to clear hooks and knee-slice.",
+                mode: "Gi",
+                focus: "Dynamic Guard",
+                type: "Position",
+                tags: ["DLR", "Sweeps", "Passing battle"],
+            },
+            {
+                id: 3,
+                title: "Lasso Guard – One Lasso, One Sleeve",
+                short: "Strong lasso position.",
+                description:
+                    "Bottom has a deep lasso on one side and sleeve control on the other. Top must strip grips and work angles.",
+                mode: "Gi",
+                focus: "Grip Fighting",
+                type: "Position",
+                tags: ["Lasso", "Gi control", "Off-balancing"],
+            },
+            {
+                id: 4,
+                title: "Spider Guard – Double Sleeves",
+                short: "Feet on biceps.",
+                description:
+                    "Bottom has double sleeve grips with classic spider guard. Top must break a leg line and pressure in.",
+                mode: "Gi",
+                focus: "Distance Control",
+                type: "Position",
+                tags: ["Spider guard", "Sleeve tension", "Angle play"],
+            },
+            {
+                id: 5,
+                title: "Open Guard – Collar & Pant Grip",
+                short: "Hybrid open guard.",
+                description:
+                    "Bottom plays open guard with one collar and one pant grip. Top must neutralise grips and initiate passing.",
+                mode: "Gi",
+                focus: "Passing Initiation",
+                type: "Position",
+                tags: ["Collar grip", "Pant grip", "Open guard"],
+            },
+            {
+                id: 6,
+                title: "Half Guard – Underhook Battle",
+                short: "Bottom underhook; top whizzer + pant grip.",
+                description:
+                    "Classic half guard duel where both players have meaningful gi grips. Bottom aims to come up; top prevents it and stabilises.",
+                mode: "Gi",
+                focus: "Underhook War",
+                type: "Position",
+                tags: ["Half guard", "Underhook", "Whizzer"],
+            },
+            {
+                id: 7,
+                title: "Knee Shield Half – Collar Grip Frame",
+                short: "Bottom framing with collar grip.",
+                description:
+                    "Bottom uses knee shield + collar grip to manage distance. Top must beat frames without lazy knee-walking.",
+                mode: "Gi",
+                focus: "Frame Management",
+                type: "Position",
+                tags: ["Knee shield", "Collar frame"],
+            },
+            {
+                id: 8,
+                title: "Toreando – Double Pant Grips",
+                short: "Top has pant grips; bottom supine.",
+                description:
+                    "Top starts with standing toreando grips. Bottom responds with inversions, hooks, or wrestle-ups.",
+                mode: "Gi",
+                focus: "Passing vs Retention",
+                type: "Position",
+                tags: ["Toreando", "Pant grips"],
+            },
+            {
+                id: 9,
+                title: "Headquarters – Pant Grip Variant",
+                short: "Stapled leg and pant control.",
+                description:
+                    "Top is in HQ with pant control. Bottom has knee shield available to create space or off-balance.",
+                mode: "Gi",
+                focus: "Mid-Range Passing",
+                type: "Position",
+                tags: ["HQ", "Pant grip", "Frames"],
+            },
+            {
+                id: 10,
+                title: "Knee Cut – Cross-Collar Control",
+                short: "Top has collar + underhook.",
+                description:
+                    "Top mid knee-cut with strong collar control. Bottom fights inside frames and hip escape angles.",
+                mode: "Gi",
+                focus: "Pressure Passing",
+                type: "Position",
+                tags: ["Knee cut", "Collar control"],
+            },
+            {
+                id: 11,
+                title: "Standing – Double Sleeve Grips",
+                short: "Both players gripping sleeves.",
+                description:
+                    "Classic gi grip-fight start. Must transition to takedown or guard pull without stalling.",
+                mode: "Gi",
+                focus: "Standing Grips",
+                type: "Position",
+                tags: ["Sleeve grips", "Stand-up"],
+            },
+            {
+                id: 12,
+                title: "Standing – Collar Drag Threat",
+                short: "One player has collar grip advantage.",
+                description:
+                    "Neutral standing position but one player has established a deep collar grip. Both must react accordingly.",
+                mode: "Gi",
+                focus: "Off-balancing",
+                type: "Position",
+                tags: ["Collar drag", "Entry work"],
+            },
+            {
+                id: 13,
+                title: "Mount – Cross Collar Setup",
+                short: "Top holding low mount and collar.",
+                description:
+                    "Top has cross-collar control; bottom sets tight elbows and fights posture first.",
+                mode: "Gi",
+                focus: "Gi Chokes",
+                type: "Position",
+                tags: ["Mount", "Collar attacks"],
+            },
+            {
+                id: 14,
+                title: "Side Control – Far Collar Grip",
+                short: "Top underhook + far-collar.",
+                description:
+                    "Top uses far-collar to isolate frames. Bottom tries to regard or escape to knees.",
+                mode: "Gi",
+                focus: "Top Control",
+                type: "Position",
+                tags: ["Side control", "Collar grip"],
+            },
+            {
+                id: 15,
+                title: "Back Control – Lapel Trap",
+                short: "Top has seatbelt + fed lapel.",
+                description:
+                    "Top uses lapel to trap shoulder/arm. Bottom hand-fights for survival.",
+                mode: "Gi",
+                focus: "Back Attacks",
+                type: "Position",
+                tags: ["Back control", "Lapel wrap"],
+            },
+            {
+                id: 16,
+                title: "Turtle – Clock Choke Threat",
+                short: "Top gripping collar behind shoulder.",
+                description:
+                    "Start in turtle with top already threatening clock-choke grips.",
+                mode: "Gi",
+                focus: "Submission Chains",
+                type: "Position",
+                tags: ["Clock choke", "Control"],
+            },
+            {
+                id: 17,
+                title: "S-Mount – Armbar Setup",
+                short: "Top in S-mount over isolated arm.",
+                description:
+                    "Classic gi setup for armbar. Bottom must create wedges and turn in.",
+                mode: "Gi",
+                focus: "Arm Locks",
+                type: "Position",
+                tags: ["S-mount", "Armbar"],
+            },
+            {
+                id: 18,
+                title: "X-Guard – Pant Grip Entry",
+                short: "Bottom in X with pant control.",
+                description:
+                    "Bottom off-balances into technical stand-up; top clears hooks.",
+                mode: "Gi",
+                focus: "Sweep Chains",
+                type: "Position",
+                tags: ["X-guard", "Pant grip"],
+            },
+            {
+                id: 19,
+                title: "Single Leg X – Sleeve & Pant Combo",
+                short: "Bottom attacking SLX.",
+                description:
+                    "Gi friction changes off-balancing. Top must pummel legs intelligently.",
+                mode: "Gi",
+                focus: "Leg Entanglements",
+                type: "Position",
+                tags: ["SLX", "Off-balancing"],
+            },
+            {
+                id: 20,
+                title: "Lapel Entanglement – Worm Lite",
+                short: "Simplified lapel wrap.",
+                description:
+                    "Bottom threads lapel under leg for control. Top must free knee line and unwind wrap.",
+                mode: "Gi",
+                focus: "Lapel Guard",
+                type: "Position",
+                tags: ["Lapel guard", "Entanglements"],
+            },
+        ];
+
+        /* ---------------------------------------------
+           NO-GI POSITIONS ARRAY
+        ----------------------------------------------*/
+        const nogiPositions = [
+            {
+                id: 1,
+                title: "Seated Guard – Double Wrist Control",
+                short: "Bottom seated; top standing.",
+                description:
+                    "Bottom establishes wrist control. Top breaks grips and initiates passing. Distance management is the main lesson.",
+                mode: "No-Gi",
+                focus: "Distance Management",
+                type: "Position",
+                tags: ["Seated", "Wrist control"],
+            },
+            {
+                id: 2,
+                title: "Shin-to-Shin Entry",
+                short: "Bottom shin-to-shin; top mid-stance.",
+                description:
+                    "Bottom hunts wrestle-up or off-balance. Top looks to sprawl or staple leg to smash.",
+                mode: "No-Gi",
+                focus: "Entries",
+                type: "Position",
+                tags: ["Shin-to-shin", "Wrestle up"],
+            },
+            {
+                id: 3,
+                title: "Headquarters – No-Grip Variant",
+                short: "One leg stapled; bottom framing.",
+                description:
+                    "Pure no-gi HQ. Top pressures in; bottom chases inside position.",
+                mode: "No-Gi",
+                focus: "Mid-Range Passing",
+                type: "Position",
+                tags: ["HQ", "Frames"],
+            },
+            {
+                id: 4,
+                title: "Knee Shield Half – No Gi",
+                short: "Classic knee shield battle.",
+                description:
+                    "No gi friction means head position + hand fighting matter more than anything.",
+                mode: "No-Gi",
+                focus: "Frame vs Pressure",
+                type: "Position",
+                tags: ["Knee shield", "Shoulder pressure"],
+            },
+            {
+                id: 5,
+                title: "Deep Half Guard – No Gi",
+                short: "Bottom deep; top wide base.",
+                description:
+                    "Without fabric, the sweep timing must be sharp. Top works to separate legs and cross-face.",
+                mode: "No-Gi",
+                focus: "Sweep Timing",
+                type: "Position",
+                tags: ["Deep half", "Timing"],
+            },
+            {
+                id: 6,
+                title: "Body Lock Pass Start",
+                short: "Top locked around hips.",
+                description:
+                    "Top body-locks around hips; bottom frames on shoulders/hips to create wedges.",
+                mode: "No-Gi",
+                focus: "Pressure Passing",
+                type: "Position",
+                tags: ["Body lock", "Frames"],
+            },
+            {
+                id: 7,
+                title: "Front Headlock Control",
+                short: "Top has chin strap + elbow.",
+                description:
+                    "Bottom must clear hands, peek out, or wrestle up. Top chains to guillotine or back takes.",
+                mode: "No-Gi",
+                focus: "Chokes & Scrambles",
+                type: "Position",
+                tags: ["Front headlock", "Guillotine threat"],
+            },
+            {
+                id: 8,
+                title: "Turtle – Seatbelt (No Gi)",
+                short: "Top with seatbelt, no grips.",
+                description:
+                    "Top hunts hooks; bottom rolls, stands, or peels hands.",
+                mode: "No-Gi",
+                focus: "Back Takes",
+                type: "Position",
+                tags: ["Seatbelt", "Back take"],
+            },
+            {
+                id: 9,
+                title: "Back Control – Hooks or Body Triangle",
+                short: "Pure hand fighting battle.",
+                description:
+                    "Top aims for RNC. Bottom prioritises wrist control and shoulder hiding.",
+                mode: "No-Gi",
+                focus: "Finish Mechanics",
+                type: "Position",
+                tags: ["Back control", "RNC"],
+            },
+            {
+                id: 10,
+                title: "Mount – High Mount (No Gi)",
+                short: "Top sitting high; bottom bridging.",
+                description:
+                    "Top must keep knees tight and hands active. Bottom relies on frames and explosive bridging.",
+                mode: "No-Gi",
+                focus: "Control",
+                type: "Position",
+                tags: ["Mount", "Balance"],
+            },
+            {
+                id: 11,
+                title: "Side Control – Underhook War",
+                short: "Bottom chasing underhook.",
+                description:
+                    "Top blocks head and hip. Bottom works underhook or guard recoveries.",
+                mode: "No-Gi",
+                focus: "Escapes & Control",
+                type: "Position",
+                tags: ["Side control", "Head control"],
+            },
+            {
+                id: 12,
+                title: "North-South – Arm Isolated",
+                short: "Top controls far arm.",
+                description:
+                    "Attacks rely on movement, not fabric. Bottom must rotate and build frames.",
+                mode: "No-Gi",
+                focus: "Mobility",
+                type: "Position",
+                tags: ["North-south", "Isolation"],
+            },
+            {
+                id: 13,
+                title: "Single Leg X – No Gi Variant",
+                short: "Pure hooks + angles.",
+                description:
+                    "Without pant grips, SLX depends on strong pinch, elevation, and kazushi.",
+                mode: "No-Gi",
+                focus: "Leg Entanglements",
+                type: "Position",
+                tags: ["SLX", "Entries"],
+            },
+            {
+                id: 14,
+                title: "Outside Ashi Garami",
+                short: "Bottom controls heel line.",
+                description:
+                    "Top clears knee line; bottom exposes heel. Classic no-gi exchange start.",
+                mode: "No-Gi",
+                focus: "Leg Locks",
+                type: "Position",
+                tags: ["Ashi", "Heel exposure"],
+            },
+            {
+                id: 15,
+                title: "50/50 – No Gi Version",
+                short: "Legs tangled; no grips.",
+                description:
+                    "Battle revolves around hand fighting, heel exposure, and back-step timing.",
+                mode: "No-Gi",
+                focus: "Entanglement Management",
+                type: "Position",
+                tags: ["50/50", "Hand fighting"],
+            },
+            {
+                id: 16,
+                title: "Standing – Collar Tie & Wrist",
+                short: "Basic clinch start.",
+                description:
+                    "One player has collar tie; the other controls wrist. Pummelling and level changes determine momentum.",
+                mode: "No-Gi",
+                focus: "Takedown Entries",
+                type: "Position",
+                tags: ["Collar tie", "Wrestling"],
+            },
+            {
+                id: 17,
+                title: "Standing – Over-Under Clinch",
+                short: "Classic grappling clinch.",
+                description:
+                    "Head position + pummelling decide who wins the first exchange.",
+                mode: "No-Gi",
+                focus: "Clinch",
+                type: "Position",
+                tags: ["Over-under", "Pummelling"],
+            },
+            {
+                id: 18,
+                title: "Standing – Double Unders (Top)",
+                short: "Top has dominant inside control.",
+                description:
+                    "Bottom must immediately pummel out, create angles, or sprawl to deny body lock.",
+                mode: "No-Gi",
+                focus: "Dominant Clinch",
+                type: "Position",
+                tags: ["Double unders", "Pummelling"],
+            },
+            {
+                id: 19,
+                title: "Scramble Start – Knees Off Mat",
+                short: "Hands on shoulders.",
+                description:
+                    "Both players active and upright on toes. Neutral scramble battle.",
+                mode: "No-Gi",
+                focus: "Reaction Time",
+                type: "Position",
+                tags: ["Scrambles", "Speed"],
+            },
+            {
+                id: 20,
+                title: "Wrestle-Up Battle – Seated vs Standing",
+                short: "Bottom seated; top hand-fighting.",
+                description:
+                    "Bottom must wrestle up or sweep. Top must deny entries and pressure in.",
+                mode: "No-Gi",
+                focus: "Transitional Movement",
+                type: "Position",
+                tags: ["Wrestle up", "Hand fighting"],
+            },
+        ];
+
+        /* ---------------------------------------------
+           STATE
+        ----------------------------------------------*/
+        let currentDeck = wildcards;
+        let currentId = currentDeck[0].id;
+
         const currentIndexLabel = document.getElementById("currentIndexLabel");
         const currentTitle = document.getElementById("currentTitle");
         const currentTags = document.getElementById("currentTags");
@@ -731,15 +928,16 @@
         const totalCount = document.getElementById("totalCount");
         const currentCard = document.getElementById("currentCard");
 
-        let currentId = scenarios[0].id;
-
+        /* ---------------------------------------------
+           RENDER FUNCTIONS
+        ----------------------------------------------*/
         function renderCurrent(id, animate = true) {
-            const scenario = scenarios.find((s) => s.id === id);
+            const scenario = currentDeck.find((s) => s.id === id);
             if (!scenario) return;
 
             currentId = id;
 
-            currentIndexLabel.textContent = `Scenario ${scenario.id} / ${scenarios.length}`;
+            currentIndexLabel.textContent = `Scenario ${scenario.id} / ${currentDeck.length}`;
             currentTitle.textContent = scenario.title;
             currentTags.textContent = `Mode: ${scenario.mode} · Focus: ${scenario.focus}`;
             currentBody.textContent = scenario.description;
@@ -755,7 +953,9 @@
 
             document
                 .querySelectorAll(".scenario-item")
-                .forEach((item) => item.classList.toggle("active", Number(item.dataset.id) === id));
+                .forEach((item) =>
+                    item.classList.toggle("active", Number(item.dataset.id) === id)
+                );
 
             if (animate) {
                 currentCard.classList.remove("animate-pop");
@@ -765,46 +965,66 @@
         }
 
         function renderList() {
-            totalCount.textContent = scenarios.length.toString();
+            totalCount.textContent = currentDeck.length.toString();
             scenarioList.innerHTML = "";
 
-            scenarios.forEach((s) => {
+            currentDeck.forEach((s) => {
                 const li = document.createElement("li");
                 li.className = "scenario-item";
                 li.dataset.id = s.id;
 
                 li.innerHTML = `
-          <div class="scenario-index">${s.id}.</div>
-          <div>
-            <div class="scenario-text-main">${s.title}</div>
-            <div class="scenario-text-sub">${s.short}</div>
-          </div>
+            <div class="scenario-index">${s.id}.</div>
+            <div>
+                <div class="scenario-text-main">${s.title}</div>
+                <div class="scenario-text-sub">${s.short}</div>
+            </div>
         `;
 
-                li.addEventListener("click", () => {
-                    renderCurrent(s.id, true);
-                });
+                li.addEventListener("click", () => renderCurrent(s.id, true));
 
                 scenarioList.appendChild(li);
             });
         }
 
+        /* ---------------------------------------------
+           RANDOM
+        ----------------------------------------------*/
         function randomScenario() {
-            if (scenarios.length === 0) return;
+            if (currentDeck.length <= 1) return;
+
             let nextId = currentId;
-            if (scenarios.length > 1) {
-                while (nextId === currentId) {
-                    const idx = Math.floor(Math.random() * scenarios.length);
-                    nextId = scenarios[idx].id;
-                }
+            while (nextId === currentId) {
+                const idx = Math.floor(Math.random() * currentDeck.length);
+                nextId = currentDeck[idx].id;
             }
+
             renderCurrent(nextId, true);
         }
 
         randomBtn.addEventListener("click", randomScenario);
 
+        /* ---------------------------------------------
+           DECK SELECTOR
+        ----------------------------------------------*/
+        document.getElementById("deckSelector").addEventListener("change", (e) => {
+            const value = e.target.value;
+
+            if (value === "wildcards") currentDeck = wildcards;
+            if (value === "gi") currentDeck = giPositions;
+            if (value === "nogi") currentDeck = nogiPositions;
+
+            currentId = currentDeck[0].id;
+            renderList();
+            renderCurrent(currentId, false);
+        });
+
+        /* ---------------------------------------------
+           INIT
+        ----------------------------------------------*/
         renderList();
         renderCurrent(currentId, false);
+
     </script>
 </body>
 
