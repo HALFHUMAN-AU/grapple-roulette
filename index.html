@@ -230,43 +230,47 @@
         }
 
         #deckSelector {
-            padding: 0.55rem 1rem;
-            padding-right: 2.4rem;
+            position: relative;
+            padding: 0.55rem 2.8rem 0.55rem 1.1rem;
+            /* space for chevron */
             font-size: 0.85rem;
             border-radius: 999px;
 
             background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.92);
+            color: rgba(255, 255, 255, 0.95);
 
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.30);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
 
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
 
             appearance: none;
             cursor: pointer;
 
-            /* arrow (white) */
-            background-image:
-                linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.92) 50%),
-                linear-gradient(135deg, rgba(255, 255, 255, 0.92) 50%, transparent 50%);
-            background-position:
-                calc(100% - 18px) calc(50% - 2px),
-                calc(100% - 12px) calc(50% - 2px);
-            background-size: 7px 7px, 7px 7px;
-            background-repeat: no-repeat;
-
             transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        #deckSelector::after {
+            content: "▾";
+            position: absolute;
+            right: 1.05rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.85);
+            pointer-events: none;
+            /* important */
         }
 
         #deckSelector:hover,
         #deckSelector:focus {
-            border-color: rgba(255, 45, 149, 0.55);
+            border-color: rgba(255, 45, 149, 0.65);
             box-shadow:
-                0 14px 28px rgba(0, 0, 0, 0.38),
-                0 0 0 2px rgba(255, 45, 149, 0.16);
+                0 14px 28px rgba(0, 0, 0, 0.45),
+                0 0 0 2px rgba(255, 45, 149, 0.18);
             outline: none;
         }
 
