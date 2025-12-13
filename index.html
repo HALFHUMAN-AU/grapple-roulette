@@ -247,6 +247,7 @@
                     <option value="wildcards">Wildcards</option>
                     <option value="gi">Gi Positions</option>
                     <option value="nogi">No-Gi Positions</option>
+                    <option value="chaos">Chaos Deck</option>
                 </select>
 
                 <button id="randomBtn" class="btn" type="button">Random</button>
@@ -268,7 +269,7 @@
 
     <script>
         /* ---------------------------------------------
-           ALL THREE DECKS
+           ALL FOUR DECKS
         ----------------------------------------------*/
 
         /* Wildcards (your original deck) */
@@ -990,6 +991,191 @@
                 tags: ["Wrestle up", "Hand fighting"],
             },
         ];
+        /* ---------------------------------------------
+                CHAOS ARRAY
+        ----------------------------------------------*/
+        const chaosDeck = [
+            {
+                id: 1,
+                title: "Silent Round",
+                short: "No talking. No grunting. Total silence.",
+                description:
+                    "You roll in complete silence. No coaching, no talking, no sound cues. Clear physical tap only.",
+                mode: "Chaos",
+                focus: "Composure & Awareness",
+                type: "Behaviour",
+                tags: ["No talking", "Internal calm", "Non-verbal awareness"],
+                tip: "Feel how loud your mind gets when your mouth shuts up."
+            },
+            {
+                id: 2,
+                title: "Trash Talk Only",
+                short: "You must keep talking the whole round.",
+                description:
+                    "You are not allowed to go quiet. Light commentary, humour, breath cues – but silence is banned.",
+                mode: "Chaos",
+                focus: "Breath & Cognitive Load",
+                type: "Behaviour",
+                tags: ["Continuous talk", "Cardio stress", "Mental load"],
+                tip: "Use your words to regulate pace instead of hold your breath."
+            },
+            {
+                id: 3,
+                title: "Eyes Closed",
+                short: "Grapple with no vision.",
+                description:
+                    "Eyes fully closed for the entire round. No peeking.",
+                mode: "Chaos",
+                focus: "Sensitivity & Balance",
+                type: "Sensory",
+                tags: ["Feel-based grappling", "Base", "No vision"],
+                tip: "If you lose balance easily, you were relying on sight more than structure."
+            },
+            {
+                id: 4,
+                title: "One Word Coach",
+                short: "Partner can only use one chosen word.",
+                description:
+                    "Your coach chooses one word before the round (‘breathe’, ‘hips’, ‘frames’) and may only say that word.",
+                mode: "Chaos",
+                focus: "Theme Reinforcement",
+                type: "Coaching",
+                tags: ["Minimal coaching", "Focus", "Constraint"],
+                tip: "Let the word act like a metronome, not a distraction."
+            },
+            {
+                id: 5,
+                title: "Role Swap Round",
+                short: "Imitate your partner’s style.",
+                description:
+                    "You must roll exactly like your partner – their pace, habits, strengths, even their mistakes.",
+                mode: "Chaos",
+                focus: "Pattern Awareness",
+                type: "Behaviour",
+                tags: ["Empathy", "Game study", "Predictability"],
+                tip: "This shows you how obvious your own patterns are."
+            },
+            {
+                id: 6,
+                title: "Penalty Push-Ups",
+                short: "Every reset = 3 push-ups.",
+                description:
+                    "Any disengagement to neutral forces both players to drop for 3 push-ups before resuming.",
+                mode: "Chaos",
+                focus: "Commitment & Conditioning",
+                type: "Conditioning",
+                tags: ["No lazy resets", "Cardio", "Discipline"],
+                tip: "You’ll stop bailing on positions just to escape discomfort."
+            },
+            {
+                id: 7,
+                title: "Slow Motion Only",
+                short: "You must move at 50 percent speed.",
+                description:
+                    "Everything happens in deliberate slow motion. No bursts, no speed spikes.",
+                mode: "Chaos",
+                focus: "Precision & Timing",
+                type: "Tempo",
+                tags: ["Slow roll", "Technical control", "Patience"],
+                tip: "If it looks sloppy in slow-mo, it’s sloppy under pressure too."
+            },
+            {
+                id: 8,
+                title: "No Hands Top / No Legs Bottom",
+                short: "Asymmetrical handicap.",
+                description:
+                    "Top player cannot use hands to grip or post. Bottom cannot use legs to attack (frames and retention only).",
+                mode: "Chaos",
+                focus: "Adaptation",
+                type: "Handicap",
+                tags: ["Asymmetry", "Creativity", "Problem-solving"],
+                tip: "Forces creative entries and escapes instead of default patterns."
+            },
+            {
+                id: 9,
+                title: "45-Second Death Clock",
+                short: "No progress = bottom starts in mount.",
+                description:
+                    "If there’s no clear advancement or threat after 45 seconds, you reset with bottom player in full mount.",
+                mode: "Chaos",
+                focus: "Urgency",
+                type: "Time Rule",
+                tags: ["Anti-stall", "Initiative", "Objective"],
+                tip: "Make progress intentional instead of accidental."
+            },
+            {
+                id: 10,
+                title: "No Guard Pulling",
+                short: "Stand-up battle only.",
+                description:
+                    "No intentional guard pull allowed for the whole round. Takedowns and forced scrambles only.",
+                mode: "Chaos",
+                focus: "Stand-Up",
+                type: "Rule Change",
+                tags: ["Wrestling", "Entry work", "Takedowns"],
+                tip: "Perfect for guard players who hide from takedowns."
+            },
+            {
+                id: 11,
+                title: "Secret Win Condition",
+                short: "Each player sets a hidden goal.",
+                description:
+                    "Each player privately chooses an objective before the round (e.g. sweep once, take the back). Reveal at the end.",
+                mode: "Chaos",
+                focus: "Intentionality",
+                type: "Objective",
+                tags: ["Hidden game", "Focus", "Strategy"],
+                tip: "Adds strategy without announcing your plan out loud."
+            },
+            {
+                id: 12,
+                title: "You Lose If You Explode",
+                short: "Any frantic movement = loss.",
+                description:
+                    "If someone uses a full-speed or uncontrolled scramble, they lose instantly.",
+                mode: "Chaos",
+                focus: "Calm Under Stress",
+                type: "Behaviour",
+                tags: ["No spazz", "Control", "Self-regulation"],
+                tip: "Punishes panic scrambling and rewards real control."
+            },
+            {
+                id: 13,
+                title: "One-Limb Focus",
+                short: "Hunt one limb all round.",
+                description:
+                    "Pick one limb before the round and make that your main target for control or attacks.",
+                mode: "Chaos",
+                focus: "Isolation",
+                type: "Objective",
+                tags: ["Micro battles", "Control", "Detail work"],
+                tip: "Turns every position into a limb-control puzzle."
+            },
+            {
+                id: 14,
+                title: "Tap = Worse Position",
+                short: "Tap resets you into a bad spot.",
+                description:
+                    "When someone taps, they restart immediately in a worse position (side → mount, mount → back).",
+                mode: "Chaos",
+                focus: "Resilience",
+                type: "Rule Change",
+                tags: ["No easy bailout", "Grit", "Bad spot tolerance"],
+                tip: "Encourages intelligent defence instead of 'tap to reset'."
+            },
+            {
+                id: 15,
+                title: "No Technique Names",
+                short: "Naming techniques is banned.",
+                description:
+                    "You cannot say any technique names out loud. Describe mechanics only.",
+                mode: "Chaos",
+                focus: "Principles",
+                type: "Coaching",
+                tags: ["Concepts", "Mechanics", "Language discipline"],
+                tip: "Forces you to think in mechanics instead of memorised labels."
+            }
+        ];
 
         /* ---------------------------------------------
            STATE
@@ -1107,8 +1293,9 @@
             const value = e.target.value;
 
             if (value === "wildcards") currentDeck = wildcards;
-            if (value === "gi") currentDeck = giPositions;
-            if (value === "nogi") currentDeck = nogiPositions;
+            else if (value === "gi") currentDeck = giPositions;
+            else if (value === "nogi") currentDeck = nogiPositions;
+            else if (value === "chaos") currentDeck = chaosDeck;
 
             currentId = currentDeck[0].id;
             renderList();
